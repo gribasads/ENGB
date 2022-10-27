@@ -57,7 +57,7 @@ public class TelaInicial extends javax.swing.JFrame{
         });
 
         telaInicial.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        telaInicial.setText("Tela inicial");
+        telaInicial.setText("Tela Inicial");
 
         saldoDisponivel.setText("Saldo Disponível:");
 
@@ -66,10 +66,10 @@ public class TelaInicial extends javax.swing.JFrame{
         exibirSaldo.setRequestFocusEnabled(false);
         exibirSaldo.setVerifyInputWhenFocusTarget(false);
         exibirSaldo.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 exibirSaldoAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -125,7 +125,7 @@ public class TelaInicial extends javax.swing.JFrame{
                                 .addComponent(addGanhos))
                             .addComponent(exibirSaldo)
                             .addComponent(jScrollPane2))
-                        .addContainerGap(49, Short.MAX_VALUE))
+                        .addContainerGap(45, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(voltarTelaLogin)
