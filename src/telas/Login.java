@@ -139,6 +139,7 @@ public class Login extends javax.swing.JFrame {
                 TelaInicial inicio = new TelaInicial();
                 this.dispose();
                 inicio.setVisible(true);
+                con.close();
             } else {
             JOptionPane.showMessageDialog(this, "ERRO! Email ou senha incorretos.");
         }
