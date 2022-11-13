@@ -5,6 +5,10 @@
  */
 package telas;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 import teligamagrao.Pessoa;
 /**
@@ -155,12 +159,41 @@ public class AdicionarGanho extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarMouseClicked
 
     private void addGanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGanhoActionPerformed
-        Pessoa p = new Pessoa();
-        
-        Double valor = Double.parseDouble(txtValorGanho.getText());
-        Double saldoNovo = valor + p.getSaldo();
-        p.setSaldo(saldoNovo);
-        JOptionPane.showMessageDialog(rootPane, "VALOR DE "+valor+" ADICIONADO COMO GANHO\n\nSALDO ATUAL: "+p.getSaldo());
+            try {     
+            float saldoAtual = 0;
+            
+            // inicia conexão e busca o saldo
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");
+            Statement stm = con.createStatement();
+            String sql = "SELECT balance FROM public.accounts a WHERE iduser='2'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            while (rs.next()){                
+                saldoAtual = rs.getFloat("balance");
+                System.out.println("SALDO ATUAL:"+saldoAtual);
+            }
+            
+            // armazeno os dados do valor no banco
+            Float valor = Float.parseFloat(txtValorGanho.getText());
+            String descricao = txtDescricao.getText();
+            String data = txtData.getText();            
+            String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('"+valor+"','"+descricao+"','"+data+"','2');";
+            stm.execute(sql2);
+            
+            // atualizo o saldo
+            float novoSaldo = saldoAtual + valor;
+            String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='2'";
+            stm.execute(sql3);    
+            
+            // fecha conexão
+            con.close();          
+            
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
     }//GEN-LAST:event_addGanhoActionPerformed
 
     /**

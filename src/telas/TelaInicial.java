@@ -9,8 +9,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import javax.swing.JOptionPane;
-import teligamagrao.Pessoa;
+import java.util.ArrayList;
+import teligamagrao.Valor;
 /**
  *
  * @author ArthurCyrilloGeiger
@@ -42,8 +42,8 @@ public class TelaInicial extends javax.swing.JFrame{
         addDespesa = new javax.swing.JButton();
         addGanhos = new javax.swing.JButton();
         voltarTelaLogin = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ListaHistorico = new javax.swing.JList<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabelaHistorico = new javax.swing.JTable();
 
         jLabel4.setText("jLabel4");
 
@@ -74,6 +74,11 @@ public class TelaInicial extends javax.swing.JFrame{
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
+        exibirSaldo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exibirSaldoActionPerformed(evt);
+            }
+        });
 
         addDespesa.setText("+ despesas");
         addDespesa.addActionListener(new java.awt.event.ActionListener() {
@@ -83,6 +88,7 @@ public class TelaInicial extends javax.swing.JFrame{
         });
 
         addGanhos.setText("+ ganhos");
+        addGanhos.setToolTipText("");
         addGanhos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addGanhosActionPerformed(evt);
@@ -96,15 +102,26 @@ public class TelaInicial extends javax.swing.JFrame{
             }
         });
 
-        ListaHistorico.setFont(new java.awt.Font("Gadugi", 1, 12)); // NOI18N
-        ListaHistorico.setForeground(new java.awt.Color(255, 0, 51));
-        ListaHistorico.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { " " };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        tabelaHistorico.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "VALOR", "DESCRIÇÃO", "DATA"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.Float.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
         });
-        ListaHistorico.setMaximumSize(new java.awt.Dimension(5, 999));
-        jScrollPane2.setViewportView(ListaHistorico);
+        jScrollPane1.setViewportView(tabelaHistorico);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -112,24 +129,29 @@ public class TelaInicial extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(saldoDisponivel)
-                    .addComponent(telaInicial))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(saldoDisponivel)
+                            .addComponent(telaInicial))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(addDespesa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                                .addComponent(addGanhos))
-                            .addComponent(exibirSaldo)
-                            .addComponent(jScrollPane2))
-                        .addContainerGap(45, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(voltarTelaLogin)
-                        .addContainerGap())))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(addDespesa)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
+                                        .addComponent(addGanhos))
+                                    .addComponent(exibirSaldo))
+                                .addContainerGap(45, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(voltarTelaLogin)
+                                .addContainerGap())))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,8 +168,8 @@ public class TelaInicial extends javax.swing.JFrame{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addDespesa)
                     .addComponent(addGanhos))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,6 +193,24 @@ public class TelaInicial extends javax.swing.JFrame{
     }//GEN-LAST:event_addGanhosActionPerformed
 
     private void exibirSaldoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_exibirSaldoAncestorAdded
+        float saldoAtual = 0;    
+        try {                        
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");            
+            Statement stm = con.createStatement();
+            String sql = "select balance from public.accounts a where iduser='2'";
+            ResultSet rs = stm.executeQuery(sql);
+                                   
+            while (rs.next()){                
+                saldoAtual = rs.getFloat("balance");
+                exibirSaldo.setText(Float. toString(saldoAtual));
+                con.close();
+            }
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
     }//GEN-LAST:event_exibirSaldoAncestorAdded
 
     private void voltarTelaLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarTelaLoginMouseClicked
@@ -180,10 +220,11 @@ public class TelaInicial extends javax.swing.JFrame{
     }//GEN-LAST:event_voltarTelaLoginMouseClicked
 
     private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
-        Pessoa p = new Pessoa();
-        Double saldo = p.getSaldo();
-        Double limite = p.getLimite();
     }//GEN-LAST:event_formFocusGained
+
+    private void exibirSaldoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exibirSaldoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_exibirSaldoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -221,14 +262,14 @@ public class TelaInicial extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> ListaHistorico;
     private javax.swing.JButton addDespesa;
     private javax.swing.JButton addGanhos;
     private javax.swing.JTextField exibirSaldo;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel saldoDisponivel;
+    private javax.swing.JTable tabelaHistorico;
     private javax.swing.JLabel telaInicial;
     private javax.swing.JLabel voltarTelaLogin;
     // End of variables declaration//GEN-END:variables
