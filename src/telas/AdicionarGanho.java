@@ -55,12 +55,6 @@ public class AdicionarGanho extends javax.swing.JFrame {
 
         dataGanho.setText("Data:");
 
-        txtData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDataActionPerformed(evt);
-            }
-        });
-
         cancelar.setText("< Cancelar");
         cancelar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -69,11 +63,6 @@ public class AdicionarGanho extends javax.swing.JFrame {
         });
 
         fixar.setText("Fixar");
-        fixar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fixarActionPerformed(evt);
-            }
-        });
 
         addGanho.setText("Salvar");
         addGanho.addActionListener(new java.awt.event.ActionListener() {
@@ -144,15 +133,8 @@ public class AdicionarGanho extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDataActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDataActionPerformed
-
-    private void fixarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_fixarActionPerformed
-
     private void cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMouseClicked
+        // voltar para a tela inicial
         TelaInicial inicio = new TelaInicial();
         this.dispose();
         inicio.setVisible(true);
@@ -160,6 +142,7 @@ public class AdicionarGanho extends javax.swing.JFrame {
 
     private void addGanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGanhoActionPerformed
             try {     
+            
             float saldoAtual = 0;
             
             // inicia conexão e busca o saldo
@@ -168,7 +151,7 @@ public class AdicionarGanho extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");
             Statement stm = con.createStatement();
-            String sql = "SELECT balance FROM public.accounts a WHERE iduser='2'";
+            String sql = "SELECT balance FROM public.accounts a WHERE iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             while (rs.next()){                
@@ -180,16 +163,21 @@ public class AdicionarGanho extends javax.swing.JFrame {
             Float valor = Float.parseFloat(txtValorGanho.getText());
             String descricao = txtDescricao.getText();
             String data = txtData.getText();            
-            String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('"+valor+"','"+descricao+"','"+data+"','2');";
+            String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('"+valor+"','"+descricao+"','"+data+"','1');";
             stm.execute(sql2);
             
             // atualizo o saldo
             float novoSaldo = saldoAtual + valor;
-            String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='2'";
+            String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
             stm.execute(sql3);    
             
             // fecha conexão
             con.close();          
+            
+            // voltar para a tela inicial
+            TelaInicial inicio = new TelaInicial();
+            this.dispose();
+            inicio.setVisible(true);
             
             }catch (Exception e) {
             e.printStackTrace();

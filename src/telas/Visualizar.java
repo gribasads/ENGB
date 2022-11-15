@@ -5,9 +5,10 @@
  */
 package telas;
 
-import javax.swing.JOptionPane;
-import teligamagrao.Pessoa;
-import teligamagrao.Valor;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  *
@@ -15,12 +16,21 @@ import teligamagrao.Valor;
  */
 public class Visualizar extends javax.swing.JFrame {
 
+    int idtransction;
+    
+
+    private TelaInicial telaInicial;
+    
     /**
      * Creates new form Visualizar
      */
     public Visualizar() {
         initComponents();
     }
+    
+    
+    
+        
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -33,26 +43,22 @@ public class Visualizar extends javax.swing.JFrame {
 
         tituloValor = new javax.swing.JLabel();
         descricao = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtDescricao = new javax.swing.JTextArea();
         data = new javax.swing.JLabel();
         txtData = new javax.swing.JTextField();
         valor = new javax.swing.JLabel();
         txtValor = new javax.swing.JTextField();
         deletarValor = new javax.swing.JButton();
         voltarTelaInicial = new javax.swing.JLabel();
-        editar = new javax.swing.JButton();
-        salvar = new javax.swing.JButton();
+        txtDescricao = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tituloValor.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        tituloValor.setText("titulo teste");
         tituloValor.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 tituloValorAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -60,30 +66,15 @@ public class Visualizar extends javax.swing.JFrame {
 
         descricao.setText("Descrição:");
 
-        txtDescricao.setEditable(false);
-        txtDescricao.setColumns(20);
-        txtDescricao.setRows(5);
-        txtDescricao.setFocusable(false);
-        txtDescricao.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
-            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                txtDescricaoAncestorAdded(evt);
-            }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-            }
-        });
-        jScrollPane1.setViewportView(txtDescricao);
-
         data.setText("Data: ");
 
         txtData.setEditable(false);
         txtData.setFocusable(false);
         txtData.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 txtDataAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -94,10 +85,10 @@ public class Visualizar extends javax.swing.JFrame {
         txtValor.setEditable(false);
         txtValor.setFocusable(false);
         txtValor.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 txtValorAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
@@ -118,12 +109,15 @@ public class Visualizar extends javax.swing.JFrame {
             }
         });
 
-        editar.setText("Editar Valor");
-
-        salvar.setText("Salvar Valor");
-        salvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                salvarActionPerformed(evt);
+        txtDescricao.setEditable(false);
+        txtDescricao.setFocusable(false);
+        txtDescricao.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                txtDescricaoAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
 
@@ -146,17 +140,14 @@ public class Visualizar extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 66, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(txtData, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtValor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(deletarValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(salvar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                .addComponent(deletarValor)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -168,65 +159,158 @@ public class Visualizar extends javax.swing.JFrame {
                     .addComponent(voltarTelaInicial))
                 .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(descricao)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(data)
-                            .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(valor)
-                            .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(deletarValor)
-                        .addGap(3, 3, 3)
-                        .addComponent(editar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(salvar)
-                        .addContainerGap())))
+                        .addComponent(descricao)
+                        .addGap(138, 138, 138))
+                    .addComponent(txtDescricao, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(data)
+                    .addComponent(txtData, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(valor)
+                    .addComponent(txtValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(deletarValor))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void deletarValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletarValorActionPerformed
-        // TODO add your handling code here:
+        try {     
+            float saldoAtual = 0;
+            float valor = 0;
+            // inicia conexão e busca o saldo
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");
+            Statement stm = con.createStatement();
+            String sql = "SELECT balance FROM public.accounts a WHERE iduser='1'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            // armazena o saldo
+            while (rs.next()){                
+                saldoAtual = rs.getFloat("balance");
+                System.out.println("SALDO ATUAL:"+saldoAtual);
+            }
+            
+            // busca o valor
+            String sql2 = "SELECT value FROM public.wallet a WHERE idtransaction='"+idtransction+"'";
+            ResultSet rs2 = stm.executeQuery(sql2);
+            
+            while (rs2.next()){                
+                valor = rs2.getFloat("value");
+            }
+            
+            // atualizo o saldo
+            if (valor > 0){
+                float novoSaldo = saldoAtual - valor;
+                String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
+                stm.execute(sql3); 
+            }
+            if (valor < 0)
+            {
+                float novoSaldo = saldoAtual + valor;
+                String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
+                stm.execute(sql3);
+            }
+                        
+            // excluir os dados do valor no banco          
+            String sql4 = "DELETE FROM public.wallet WHERE idtransaction='"+idtransction+"'";
+            stm.execute(sql4);
+            
+            // fecha conexão
+            con.close();          
+            
+            // voltar para a tela inicial
+            TelaInicial inicio = new TelaInicial();
+            this.dispose();
+            inicio.setVisible(true);
+            
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
     }//GEN-LAST:event_deletarValorActionPerformed
 
     private void voltarTelaInicialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarTelaInicialMouseClicked
+        // voltar para a tela inicial
         TelaInicial inicio = new TelaInicial();
         this.dispose();
         inicio.setVisible(true);
     }//GEN-LAST:event_voltarTelaInicialMouseClicked
 
-    private void txtDescricaoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtDescricaoAncestorAdded
-        Valor v = new Valor();
-        txtDescricao.setText(v.getDescricao());
-    }//GEN-LAST:event_txtDescricaoAncestorAdded
-
     private void txtDataAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtDataAncestorAdded
-        Valor v = new Valor();
-        txtData.setText(v.getData());
+        try {                        
+            // conectar e buscar a data da transação            
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");            
+            Statement stm = con.createStatement();
+            String sql = "select date from public.wallet w where idtransaction='"+idtransction+"'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            // exibir a data da transação 
+            while (rs.next()){                
+                String data = rs.getString("date");
+                txtData.setText(data);
+                con.close();
+            }
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
     }//GEN-LAST:event_txtDataAncestorAdded
 
     private void txtValorAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtValorAncestorAdded
-        Valor v = new Valor();
-        txtValor.setText(String.valueOf(v.getValor()));
+       try {                        
+            // conectar e buscar o valor da transação  
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");            
+            Statement stm = con.createStatement();
+            String sql = "select value from public.wallet w where idtransaction='"+idtransction+"'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            // exibir o valor da transação 
+            while (rs.next()){                
+                Float valor = rs.getFloat("value");
+                txtValor.setText(Float.toString(valor));
+                con.close();
+            }
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
     }//GEN-LAST:event_txtValorAncestorAdded
 
     private void tituloValorAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tituloValorAncestorAdded
-       Valor v = new Valor();
-       tituloValor.setText(v.getTitulo());
+        tituloValor.setText("Valor "+idtransction);
     }//GEN-LAST:event_tituloValorAncestorAdded
 
-    private void salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salvarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_salvarActionPerformed
+    private void txtDescricaoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtDescricaoAncestorAdded
+       try {                        
+            // conectar e buscar a descrição da transação
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");            
+            Statement stm = con.createStatement();
+            String sql = "select description from public.wallet w where idtransaction='"+idtransction+"'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            // exibir a descrição da transação                  
+            while (rs.next()){                
+                String descricao = rs.getString("description");
+                txtDescricao.setText(descricao);
+                con.close();
+            }
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
+    }//GEN-LAST:event_txtDescricaoAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -267,14 +351,23 @@ public class Visualizar extends javax.swing.JFrame {
     private javax.swing.JLabel data;
     private javax.swing.JButton deletarValor;
     private javax.swing.JLabel descricao;
-    private javax.swing.JButton editar;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton salvar;
     private javax.swing.JLabel tituloValor;
     private javax.swing.JTextField txtData;
-    private javax.swing.JTextArea txtDescricao;
+    private javax.swing.JTextField txtDescricao;
     private javax.swing.JTextField txtValor;
     private javax.swing.JLabel valor;
     private javax.swing.JLabel voltarTelaInicial;
     // End of variables declaration//GEN-END:variables
+    
+    public int getIdtransction() {
+        return idtransction;
+    }
+    public void setIdtransction(int idtransction) {
+        this.idtransction = idtransction;
+    }
+    
+    public void receberId(int id){
+        setIdtransction(id);
+    }
+
 }
