@@ -153,6 +153,7 @@ public class AdicionarDespesa extends javax.swing.JFrame {
     }//GEN-LAST:event_fixarActionPerformed
 
     private void cancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cancelarMouseClicked
+        // voltar para a tela inicial
         TelaInicial inicio = new TelaInicial();
         this.dispose();
         inicio.setVisible(true);
@@ -168,7 +169,7 @@ public class AdicionarDespesa extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "SELECT balance FROM public.accounts a WHERE iduser='2'";
+            String sql = "SELECT balance FROM public.accounts a WHERE iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             while (rs.next()){                
@@ -180,16 +181,21 @@ public class AdicionarDespesa extends javax.swing.JFrame {
             Float valor = Float.parseFloat(txtValorDespesa.getText());
             String descricao = txtDescricao.getText();
             String data = txtData.getText();            
-            String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('"+valor+"','"+descricao+"','"+data+"','2');";
+            String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('-"+valor+"','"+descricao+"','"+data+"','1');";
             stm.execute(sql2);
             
             // atualizo o saldo
             float novoSaldo = saldoAtual - valor;
-            String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='2'";
+            String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
             stm.execute(sql3);           
             
             // fecha conexão
             con.close();
+            
+            // voltar para a tela inicial
+            TelaInicial inicio = new TelaInicial();
+            this.dispose();
+            inicio.setVisible(true);
             
             }catch (Exception e) {
             e.printStackTrace();

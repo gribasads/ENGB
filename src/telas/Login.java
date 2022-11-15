@@ -123,6 +123,7 @@ public class Login extends javax.swing.JFrame {
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
         try {                        
+            // conectando no banco - testando login e senha para mostrar tela inicial
             Connection con = null;
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
