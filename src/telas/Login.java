@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author ArthurCyrilloGeiger
  */
 public class Login extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form Login
      */
@@ -131,10 +131,10 @@ public class Login extends javax.swing.JFrame {
             String usuario = txtUsuario.getText();
             String senha = String.valueOf(txtSenha.getPassword());
             
-            Statement stm = con.createStatement();
+            Statement stm = con.createStatement();            
             String sql = "select * from public.\"user\" u where login='"+usuario+"' and password='"+senha+"'";
             ResultSet rs = stm.executeQuery(sql);
-                                   
+            
             if (rs.next()){
                 rs = stm.executeQuery(sql);                
                 TelaInicial inicio = new TelaInicial();

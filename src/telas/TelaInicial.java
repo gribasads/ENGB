@@ -35,7 +35,7 @@ public class TelaInicial extends javax.swing.JFrame{
 
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        telaInicial = new javax.swing.JLabel();
+        nome = new javax.swing.JLabel();
         saldoDisponivel = new javax.swing.JLabel();
         exibirSaldo = new javax.swing.JTextField();
         addDespesa = new javax.swing.JButton();
@@ -51,8 +51,17 @@ public class TelaInicial extends javax.swing.JFrame{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        telaInicial.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        telaInicial.setText("Tela Inicial");
+        nome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        nome.setText("Tela Inicial");
+        nome.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                nomeAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
 
         saldoDisponivel.setText("Saldo Disponível:");
 
@@ -108,6 +117,7 @@ public class TelaInicial extends javax.swing.JFrame{
                 return types [columnIndex];
             }
         });
+        tabelaHistorico.setCellSelectionEnabled(true);
         tabelaHistorico.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 tabelaHistoricoAncestorAdded(evt);
@@ -132,37 +142,31 @@ public class TelaInicial extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(nome)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 263, Short.MAX_VALUE)
+                .addComponent(voltarTelaLogin)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(saldoDisponivel)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(telaInicial)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(saldoDisponivel)
-                        .addGap(5, 5, 5)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(addDespesa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                                .addComponent(addGanhos))
-                            .addComponent(exibirSaldo)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                        .addContainerGap(29, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(voltarTelaLogin)
-                        .addContainerGap())))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Visualizar)
-                .addGap(103, 103, 103))
+                    .addComponent(Visualizar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(addDespesa)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addGanhos))
+                        .addComponent(exibirSaldo)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(telaInicial)
+                    .addComponent(nome)
                     .addComponent(voltarTelaLogin))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -207,7 +211,7 @@ public class TelaInicial extends javax.swing.JFrame{
             Connection con = null;
             Class.forName("org.postgresql.Driver");
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
-            System.out.println("CONECTADO!");            
+            System.out.println("CONECTADO!");
             Statement stm = con.createStatement();
             String sql = "select balance from public.accounts a where iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
@@ -267,6 +271,28 @@ public class TelaInicial extends javax.swing.JFrame{
             }
     }//GEN-LAST:event_tabelaHistoricoAncestorAdded
 
+    private void nomeAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_nomeAncestorAdded
+            try {
+            // conectar e buscar os IDs das transações e os valores de acordo com o usuário 
+            Connection con = null;
+            Class.forName("org.postgresql.Driver");
+            con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
+            System.out.println("CONECTADO!");            
+            Statement stm = con.createStatement();
+            String sql = "select names from public.accounts a where iduser='1'";
+            ResultSet rs = stm.executeQuery(sql);
+            
+            // exibir os IDs e valores na tabela
+            while (rs.next()){                
+                String nomeUsuario = rs.getString("names");
+                nome.setText("Olá, "+nomeUsuario+"!");
+                con.close();
+            }
+            }catch (Exception e) {
+            e.printStackTrace();
+            }
+    }//GEN-LAST:event_nomeAncestorAdded
+
     /**
      * @param args the command line arguments
      */
@@ -310,10 +336,10 @@ public class TelaInicial extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nome;
     private javax.swing.JLabel saldoDisponivel;
     private javax.swing.JTable tabelaHistorico;
-    private javax.swing.JLabel telaInicial;
     private javax.swing.JLabel voltarTelaLogin;
     // End of variables declaration//GEN-END:variables
-
+    
 }

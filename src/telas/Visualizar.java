@@ -219,7 +219,7 @@ public class Visualizar extends javax.swing.JFrame {
             }
                         
             // excluir os dados do valor no banco          
-            String sql4 = "DELETE FROM public.wallet WHERE idtransaction='"+idtransction+"'";
+            String sql4 = "DELETE FROM public.wallet WHERE idtransaction='"+idtransction+"' and iduser='1'";
             stm.execute(sql4);
             
             // fecha conexão
@@ -250,7 +250,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select date from public.wallet w where idtransaction='"+idtransction+"'";
+            String sql = "select date from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir a data da transação 
@@ -272,7 +272,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select value from public.wallet w where idtransaction='"+idtransction+"'";
+            String sql = "select value from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir o valor da transação 
@@ -298,7 +298,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select description from public.wallet w where idtransaction='"+idtransction+"'";
+            String sql = "select description from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir a descrição da transação                  
