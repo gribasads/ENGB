@@ -160,7 +160,15 @@ public class AdicionarDespesa extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarMouseClicked
 
     private void addDespesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDespesaActionPerformed
-            try {     
+                  
+            // recebe os dados inseridos
+            Float valor = Float.parseFloat(txtValorDespesa.getText());
+            String descricao = txtDescricao.getText();
+            String data = txtData.getText();
+            
+            //checando para ver se o valor não é zero
+            if (valor != 0){
+                try {     
             float saldoAtual = 0;
             
             // inicia conexão e busca o saldo
@@ -178,9 +186,6 @@ public class AdicionarDespesa extends javax.swing.JFrame {
             }
             
             // armazeno os dados do valor no banco
-            Float valor = Float.parseFloat(txtValorDespesa.getText());
-            String descricao = txtDescricao.getText();
-            String data = txtData.getText();            
             String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('-"+valor+"','"+descricao+"','"+data+"','1');";
             stm.execute(sql2);
             
@@ -200,6 +205,11 @@ public class AdicionarDespesa extends javax.swing.JFrame {
             }catch (Exception e) {
             e.printStackTrace();
             }
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "ERRO! Não é possível adicionar um valor igual a zero.");
+            }
+        
+            
     }//GEN-LAST:event_addDespesaActionPerformed
 
     /**
