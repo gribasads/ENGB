@@ -35,11 +35,9 @@ public class Login extends javax.swing.JFrame {
     private void initComponents() {
 
         Login = new javax.swing.JLabel();
-        cadastreSe = new javax.swing.JLabel();
         nomeUsuario = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         senhaUsuario = new javax.swing.JLabel();
-        esqueceuSenha = new javax.swing.JLabel();
         entrar = new javax.swing.JButton();
         txtSenha = new javax.swing.JPasswordField();
 
@@ -50,19 +48,11 @@ public class Login extends javax.swing.JFrame {
         Login.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         Login.setText("Login");
 
-        cadastreSe.setForeground(new java.awt.Color(51, 51, 255));
-        cadastreSe.setText("Cadastre-se");
-        cadastreSe.setToolTipText("");
-
         nomeUsuario.setText("Nome de Usuário");
 
         txtUsuario.setToolTipText("");
 
         senhaUsuario.setText("Senha do Usuário");
-
-        esqueceuSenha.setFont(new java.awt.Font("Tahoma", 3, 11)); // NOI18N
-        esqueceuSenha.setForeground(new java.awt.Color(51, 51, 255));
-        esqueceuSenha.setText("Esqueceu sua senha");
 
         entrar.setText("Entrar");
         entrar.addActionListener(new java.awt.event.ActionListener() {
@@ -76,21 +66,15 @@ public class Login extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cadastreSe))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(94, 94, 94)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(esqueceuSenha)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(nomeUsuario)
-                                .addComponent(txtUsuario)
-                                .addComponent(senhaUsuario)
-                                .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
-                            .addComponent(entrar))))
-                .addContainerGap())
+                .addGap(94, 94, 94)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(nomeUsuario)
+                        .addComponent(txtUsuario)
+                        .addComponent(senhaUsuario)
+                        .addComponent(txtSenha, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE))
+                    .addComponent(entrar))
+                .addContainerGap(107, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(173, 173, 173)
                 .addComponent(Login)
@@ -99,9 +83,7 @@ public class Login extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(cadastreSe)
-                .addGap(28, 28, 28)
+                .addGap(63, 63, 63)
                 .addComponent(Login)
                 .addGap(29, 29, 29)
                 .addComponent(nomeUsuario)
@@ -111,9 +93,7 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(senhaUsuario)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(esqueceuSenha)
-                .addGap(18, 18, 18)
+                .addGap(44, 44, 44)
                 .addComponent(entrar)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
@@ -187,9 +167,7 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Login;
-    private javax.swing.JLabel cadastreSe;
     private javax.swing.JButton entrar;
-    private javax.swing.JLabel esqueceuSenha;
     private javax.swing.JLabel nomeUsuario;
     private javax.swing.JLabel senhaUsuario;
     private javax.swing.JPasswordField txtSenha;

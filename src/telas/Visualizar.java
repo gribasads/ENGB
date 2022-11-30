@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,7 +17,7 @@ import java.sql.Statement;
  */
 public class Visualizar extends javax.swing.JFrame {
 
-    int idtransction;
+    int idtransaction;
     
 
     private TelaInicial telaInicial;
@@ -179,6 +180,8 @@ public class Visualizar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deletarValorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deletarValorActionPerformed
+        
+        if(JOptionPane.showConfirmDialog(null, "Deseja EXCLUIR permanentemente o valor "+idtransaction+"?") == 0){
         try {     
             float saldoAtual = 0;
             float valor = 0;
@@ -198,7 +201,7 @@ public class Visualizar extends javax.swing.JFrame {
             }
             
             // busca o valor
-            String sql2 = "SELECT value FROM public.wallet a WHERE idtransaction='"+idtransction+"'";
+            String sql2 = "SELECT value FROM public.wallet a WHERE idtransaction='"+idtransaction+"'";
             ResultSet rs2 = stm.executeQuery(sql2);
             
             while (rs2.next()){                
@@ -206,7 +209,7 @@ public class Visualizar extends javax.swing.JFrame {
             }
             
             // atualizo o saldo
-            if (valor > 0){
+            /*if (valor > 0){
                 float novoSaldo = saldoAtual - valor;
                 String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
                 stm.execute(sql3); 
@@ -216,10 +219,10 @@ public class Visualizar extends javax.swing.JFrame {
                 float novoSaldo = saldoAtual + valor;
                 String sql3 = "UPDATE accounts SET balance = '"+novoSaldo+"' WHERE iduser='1'";
                 stm.execute(sql3);
-            }
+            }*/
                         
             // excluir os dados do valor no banco          
-            String sql4 = "DELETE FROM public.wallet WHERE idtransaction='"+idtransction+"' and iduser='1'";
+            String sql4 = "DELETE FROM public.wallet WHERE idtransaction='"+idtransaction+"' and iduser='1'";
             stm.execute(sql4);
             
             // fecha conexão
@@ -233,6 +236,7 @@ public class Visualizar extends javax.swing.JFrame {
             }catch (Exception e) {
             e.printStackTrace();
             }
+        }
     }//GEN-LAST:event_deletarValorActionPerformed
 
     private void voltarTelaInicialMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_voltarTelaInicialMouseClicked
@@ -250,7 +254,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select date from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
+            String sql = "select date from public.wallet w where idtransaction='"+idtransaction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir a data da transação 
@@ -272,7 +276,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select value from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
+            String sql = "select value from public.wallet w where idtransaction='"+idtransaction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir o valor da transação 
@@ -287,7 +291,7 @@ public class Visualizar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtValorAncestorAdded
 
     private void tituloValorAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tituloValorAncestorAdded
-        tituloValor.setText("Valor "+idtransction);
+        tituloValor.setText("Valor "+idtransaction);
     }//GEN-LAST:event_tituloValorAncestorAdded
 
     private void txtDescricaoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtDescricaoAncestorAdded
@@ -298,7 +302,7 @@ public class Visualizar extends javax.swing.JFrame {
             con = DriverManager.getConnection("jdbc:postgresql://babar.db.elephantsql.com:5432/byilvclc", "byilvclc", "yXK3NfRASYu3lbByS86UJp5rB7ClzphY");
             System.out.println("CONECTADO!");            
             Statement stm = con.createStatement();
-            String sql = "select description from public.wallet w where idtransaction='"+idtransction+"' and iduser='1'";
+            String sql = "select description from public.wallet w where idtransaction='"+idtransaction+"' and iduser='1'";
             ResultSet rs = stm.executeQuery(sql);
             
             // exibir a descrição da transação                  
@@ -359,15 +363,15 @@ public class Visualizar extends javax.swing.JFrame {
     private javax.swing.JLabel voltarTelaInicial;
     // End of variables declaration//GEN-END:variables
     
-    public int getIdtransction() {
-        return idtransction;
+    public int getIdtransaction() {
+        return idtransaction;
     }
-    public void setIdtransction(int idtransction) {
-        this.idtransction = idtransction;
+    public void setIdtransaction(int idtransaction) {
+        this.idtransaction = idtransaction;
     }
     
     public void receberId(int id){
-        setIdtransction(id);
+        setIdtransaction(id);
     }
 
 }

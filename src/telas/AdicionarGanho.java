@@ -141,7 +141,15 @@ public class AdicionarGanho extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelarMouseClicked
 
     private void addGanhoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGanhoActionPerformed
-            try {     
+        // recebe os dados inseridos
+        Float valor = Float.parseFloat(txtValorGanho.getText());
+        String descricao = txtDescricao.getText();
+        String data = txtData.getText();
+            
+        //checando para ver se o valor não é zero
+        if (valor != 0){
+        
+        try {     
             
             float saldoAtual = 0;
             
@@ -159,10 +167,7 @@ public class AdicionarGanho extends javax.swing.JFrame {
                 System.out.println("SALDO ATUAL:"+saldoAtual);
             }
             
-            // armazeno os dados do valor no banco
-            Float valor = Float.parseFloat(txtValorGanho.getText());
-            String descricao = txtDescricao.getText();
-            String data = txtData.getText();            
+            // armazeno os dados do valor no banco         
             String sql2 = "INSERT INTO wallet (value, description, date, iduser) VALUES ('"+valor+"','"+descricao+"','"+data+"','1');";
             stm.execute(sql2);
             
@@ -182,6 +187,10 @@ public class AdicionarGanho extends javax.swing.JFrame {
             }catch (Exception e) {
             e.printStackTrace();
             }
+        }else{
+                JOptionPane.showMessageDialog(rootPane, "ERRO! Não é possível adicionar um valor igual a zero.");
+        }
+        
     }//GEN-LAST:event_addGanhoActionPerformed
 
     /**
